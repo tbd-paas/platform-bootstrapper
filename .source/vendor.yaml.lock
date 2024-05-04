@@ -1,0 +1,15 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'fix: correct naming and namespaces for operator...'
+      sha: 022f9dad82a576bfedb783f59516306f073b067b
+    path: .
+  path: manifests/operator
+- contents:
+  - git:
+      commitTitle: 'fix: correct naming and namespaces for operator...'
+      sha: 022f9dad82a576bfedb783f59516306f073b067b
+    path: .
+  path: manifests/config
+kind: LockConfig

@@ -1,0 +1,28 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  # controller manifests to deploy the platform-config controller
+  - path: manifests/operator
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/tbd-paas/platform-config-operator.git
+          ref: main
+        includePaths:
+          - config/deploy/manifests.yaml
+        newRootPath: config/deploy
+
+  # deployment manifests to deploy the capability components
+  # NOTE: we only need to deploy the operators here as we expect our platform-boostrapper
+  #       to be passed in an appropriate PlatformConfig resource to create
+  - path: manifests/config
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/tbd-paas/platform-config-operator.git
+          ref: main
+        includePaths:
+          - config/samples/deploy_v1alpha1_platformoperators.yaml
+        newRootPath: config/samples

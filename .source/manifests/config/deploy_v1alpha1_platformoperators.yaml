@@ -1,0 +1,6 @@
+apiVersion: deploy.platform.tbd.io/v1alpha1
+kind: PlatformOperators
+metadata:
+  name: platformoperators-sample
+spec:
+  namespace: "tbd-operators-system"
