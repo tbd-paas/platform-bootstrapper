@@ -1,0 +1,15 @@
+apiVersion: deploy.platform.tbd.io/v1alpha1
+kind: PlatformConfig
+metadata:
+  name: platformconfig-sample
+spec:
+  platform:
+    certificates:
+      namespace: "tbd-certificates-system"
+      deploymentSize: "small"
+    identity:
+      namespace: "tbd-identity-system"
+      deploymentSize: "small"
+  cloud:
+    type: "aws"
+    local: true

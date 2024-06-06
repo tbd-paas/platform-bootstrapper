@@ -1,0 +1,25 @@
+---
+apiVersion: deploy.platform.tbd.io/v1alpha1
+kind: PlatformConfig
+metadata:
+  name: config
+  labels:
+    app: platform-config-operator
+    app.kubernetes.io/component: platform-config-operator
+    app.kubernetes.io/name: platform-config-operator
+    app.kubernetes.io/part-of: platform
+    app.kubernetes.io/version: unstable
+    capabilities.tbd.io/capability: platform-config-operator
+    capabilities.tbd.io/platform-version: unstable
+    capabilities.tbd.io/version: unstable
+spec:
+  platform:
+    certificates:
+      namespace: tbd-certificates-system
+      deploymentSize: small
+    identity:
+      namespace: tbd-identity-system
+      deploymentSize: small
+  cloud:
+    type: aws
+    local: true

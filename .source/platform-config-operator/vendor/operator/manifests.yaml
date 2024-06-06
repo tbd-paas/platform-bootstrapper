@@ -349,7 +349,7 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatorcontroller-manager
+  name: platform-config-operator-controller-manager
   namespace: tbd-operators-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -367,7 +367,7 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatorleader-election-role
+  name: platform-config-operator-leader-election-role
   namespace: tbd-operators-system
 rules:
 - apiGroups:
@@ -416,7 +416,7 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatormanager-role
+  name: platform-config-operator-manager-role
 rules:
 - nonResourceURLs:
   - /metrics
@@ -1002,7 +1002,7 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatormetrics-reader
+  name: platform-config-operator-metrics-reader
 rules:
 - nonResourceURLs:
   - /metrics
@@ -1024,7 +1024,7 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatorproxy-role
+  name: platform-config-operator-proxy-role
 rules:
 - apiGroups:
   - authentication.k8s.io
@@ -1054,15 +1054,15 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatorleader-election-rolebinding
+  name: platform-config-operator-leader-election-rolebinding
   namespace: tbd-operators-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: platform-config-operatorleader-election-role
+  name: platform-config-operator-leader-election-role
 subjects:
 - kind: ServiceAccount
-  name: platform-config-operatorcontroller-manager
+  name: platform-config-operator-controller-manager
   namespace: tbd-operators-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1080,14 +1080,14 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatormanager-rolebinding
+  name: platform-config-operator-manager-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: platform-config-operatormanager-role
+  name: platform-config-operator-manager-role
 subjects:
 - kind: ServiceAccount
-  name: platform-config-operatorcontroller-manager
+  name: platform-config-operator-controller-manager
   namespace: tbd-operators-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1105,14 +1105,14 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
-  name: platform-config-operatorproxy-rolebinding
+  name: platform-config-operator-proxy-rolebinding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: platform-config-operatorproxy-role
+  name: platform-config-operator-proxy-role
 subjects:
 - kind: ServiceAccount
-  name: platform-config-operatorcontroller-manager
+  name: platform-config-operator-controller-manager
   namespace: tbd-operators-system
 ---
 apiVersion: v1
@@ -1131,7 +1131,7 @@ metadata:
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
     control-plane: controller-manager
-  name: platform-config-operatorcontroller-manager-metrics-service
+  name: platform-config-operator-controller-manager-metrics-service
   namespace: tbd-operators-system
 spec:
   ports:
@@ -1168,7 +1168,7 @@ metadata:
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: v0.0.1
     control-plane: controller-manager
-  name: platform-config-operatorcontroller-manager
+  name: platform-config-operator-controller-manager
   namespace: tbd-operators-system
 spec:
   replicas: 1
@@ -1244,7 +1244,7 @@ spec:
         - --leader-elect
         command:
         - /manager
-        image: quay.io/tbd-paas/platform-config-operator:latest
+        image: quay.io/tbd-paas/platform-config-operator:v0.0.0-alpha.1
         livenessProbe:
           httpGet:
             path: /healthz
@@ -1280,5 +1280,5 @@ spec:
         runAsGroup: 1001
         runAsNonRoot: true
         runAsUser: 1001
-      serviceAccountName: platform-config-operatorcontroller-manager
+      serviceAccountName: platform-config-operator-controller-manager
       terminationGracePeriodSeconds: 10

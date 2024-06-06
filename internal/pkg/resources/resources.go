@@ -19,32 +19,41 @@ func CustomResourceDefinitions() []*unstructured.Unstructured {
 // RBAC returns any role-based access that the controllers need.
 func RBAC() []*unstructured.Unstructured {
 	return []*unstructured.Unstructured{
-		serviceAccountPlatformConfigOperatorcontrollerManager,
-		rolePlatformConfigOperatorleaderElectionRole,
-		roleBindingPlatformConfigOperatorleaderElectionRolebinding,
-		clusterRolePlatformConfigOperatormetricsReader,
-		clusterRolePlatformConfigOperatorproxyRole,
-		clusterRolePlatformConfigOperatormanagerRole,
-		clusterRoleBindingPlatformConfigOperatorproxyRolebinding,
-		clusterRoleBindingPlatformConfigOperatormanagerRolebinding,
+		serviceAccountPlatformConfigOperatorControllerManager,
+		rolePlatformConfigOperatorLeaderElectionRole,
+		roleBindingPlatformConfigOperatorLeaderElectionRolebinding,
+		clusterRolePlatformConfigOperatorMetricsReader,
+		clusterRolePlatformConfigOperatorProxyRole,
+		clusterRolePlatformConfigOperatorManagerRole,
+		clusterRoleBindingPlatformConfigOperatorProxyRolebinding,
+		clusterRoleBindingPlatformConfigOperatorManagerRolebinding,
 	}
 }
 
 // Deployment returns the actual deployment resource that runs the controller.
 func Deployment() *unstructured.Unstructured {
-	return deploymentPlatformConfigOperatorcontrollerManager
+	return deploymentPlatformConfigOperatorControllerManager
 }
 
 // Service returns the actual service resource that runs the controller.
 func Service() *unstructured.Unstructured {
-	return servicePlatformConfigOperatorcontrollerManagerMetricsService
+	return servicePlatformConfigOperatorControllerManagerMetricsService
 }
 
 // OperatorDeploymentConfig returns the resource to control the platform operator deployments.
 func OperatorDeploymentConfig() *unstructured.Unstructured {
-	deployment := platformOperatorsPlatformoperatorsSample
+	deployment := platformOperatorsConfig
 
 	deployment.SetName("config")
 
 	return deployment
+}
+
+// Config returns the resource to control the platform configuration.
+func Config() *unstructured.Unstructured {
+	config := platformConfigConfig
+
+	config.SetName("config")
+
+	return config
 }

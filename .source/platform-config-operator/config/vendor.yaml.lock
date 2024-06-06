@@ -1,0 +1,15 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - http: {}
+    path: .
+  path: platform-config-operator/vendor/operator
+- contents:
+  - git:
+      commitTitle: 'fix: controller-manager prefix...'
+      sha: dc5fac650d6ec9bd3e91da9146972d7a690dcdec
+      tags:
+      - v0.0.0-alpha.1
+    path: .
+  path: platform-config-operator/vendor/deploy
+kind: LockConfig

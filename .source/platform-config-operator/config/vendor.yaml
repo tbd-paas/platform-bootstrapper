@@ -4,25 +4,22 @@ kind: Config
 minimumRequiredVersion: 0.30.0
 directories:
   # controller manifests to deploy the platform-config controller
-  - path: manifests/operator
+  - path: platform-config-operator/vendor/operator
     contents:
       - path: ./
-        git:
-          url: https://github.com/tbd-paas/platform-config-operator.git
-          ref: main
-        includePaths:
-          - config/deploy/manifests.yaml
-        newRootPath: config/deploy
+        http:
+          url: https://github.com/tbd-paas/platform-config-operator/releases/download/v0.0.0-alpha.1/manifests.yaml
 
   # deployment manifests to deploy the capability components
   # NOTE: we only need to deploy the operators here as we expect our platform-boostrapper
   #       to be passed in an appropriate PlatformConfig resource to create
-  - path: manifests/config
+  - path: platform-config-operator/vendor/deploy
     contents:
       - path: ./
         git:
           url: https://github.com/tbd-paas/platform-config-operator.git
-          ref: main
+          ref: v0.0.0-alpha.1
         includePaths:
           - config/samples/deploy_v1alpha1_platformoperators.yaml
+          - config/samples/deploy_v1alpha1_platformconfig.yaml
         newRootPath: config/samples

@@ -12,7 +12,7 @@ var namespaceTbdOperatorsSystem = &unstructured.Unstructured{
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -49,6 +49,7 @@ var customResourceDefinitionPlatformconfigsDeployPlatformTbdIo = &unstructured.U
 				"capabilities.tbd.io/capability":       "platform-config-operator",
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 			},
 			"name": "platformconfigs.deploy.platform.tbd.io",
 		},
@@ -309,6 +310,7 @@ var customResourceDefinitionPlatformoperatorsDeployPlatformTbdIo = &unstructured
 				"capabilities.tbd.io/capability":       "platform-config-operator",
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 			},
 			"name": "platformoperators.deploy.platform.tbd.io",
 		},
@@ -480,7 +482,7 @@ of the controller reconciliation loop.`,
 }
 
 
-var serviceAccountPlatformConfigOperatorcontrollerManager = &unstructured.Unstructured{
+var serviceAccountPlatformConfigOperatorControllerManager = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "v1",
 		"kind":       "ServiceAccount",
@@ -488,7 +490,7 @@ var serviceAccountPlatformConfigOperatorcontrollerManager = &unstructured.Unstru
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -498,14 +500,14 @@ var serviceAccountPlatformConfigOperatorcontrollerManager = &unstructured.Unstru
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name":      "platform-config-operatorcontroller-manager",
+			"name":      "platform-config-operator-controller-manager",
 			"namespace": "tbd-operators-system",
 		},
 	},
 }
 
 
-var rolePlatformConfigOperatorleaderElectionRole = &unstructured.Unstructured{
+var rolePlatformConfigOperatorLeaderElectionRole = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "Role",
@@ -513,7 +515,7 @@ var rolePlatformConfigOperatorleaderElectionRole = &unstructured.Unstructured{
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -523,7 +525,7 @@ var rolePlatformConfigOperatorleaderElectionRole = &unstructured.Unstructured{
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name":      "platform-config-operatorleader-election-role",
+			"name":      "platform-config-operator-leader-election-role",
 			"namespace": "tbd-operators-system",
 		},
 		"rules": []interface{}{
@@ -578,7 +580,7 @@ var rolePlatformConfigOperatorleaderElectionRole = &unstructured.Unstructured{
 }
 
 
-var clusterRolePlatformConfigOperatormanagerRole = &unstructured.Unstructured{
+var clusterRolePlatformConfigOperatorManagerRole = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "ClusterRole",
@@ -594,8 +596,9 @@ var clusterRolePlatformConfigOperatormanagerRole = &unstructured.Unstructured{
 				"capabilities.tbd.io/capability":       "platform-config-operator",
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 			},
-			"name": "platform-config-operatormanager-role",
+			"name": "platform-config-operator-manager-role",
 		},
 		"rules": []interface{}{
 			map[string]interface{}{
@@ -1475,7 +1478,7 @@ var clusterRolePlatformConfigOperatormanagerRole = &unstructured.Unstructured{
 }
 
 
-var clusterRolePlatformConfigOperatormetricsReader = &unstructured.Unstructured{
+var clusterRolePlatformConfigOperatorMetricsReader = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "ClusterRole",
@@ -1483,7 +1486,7 @@ var clusterRolePlatformConfigOperatormetricsReader = &unstructured.Unstructured{
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1493,7 +1496,7 @@ var clusterRolePlatformConfigOperatormetricsReader = &unstructured.Unstructured{
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name": "platform-config-operatormetrics-reader",
+			"name": "platform-config-operator-metrics-reader",
 		},
 		"rules": []interface{}{
 			map[string]interface{}{
@@ -1509,7 +1512,7 @@ var clusterRolePlatformConfigOperatormetricsReader = &unstructured.Unstructured{
 }
 
 
-var clusterRolePlatformConfigOperatorproxyRole = &unstructured.Unstructured{
+var clusterRolePlatformConfigOperatorProxyRole = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "ClusterRole",
@@ -1517,7 +1520,7 @@ var clusterRolePlatformConfigOperatorproxyRole = &unstructured.Unstructured{
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1527,7 +1530,7 @@ var clusterRolePlatformConfigOperatorproxyRole = &unstructured.Unstructured{
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name": "platform-config-operatorproxy-role",
+			"name": "platform-config-operator-proxy-role",
 		},
 		"rules": []interface{}{
 			map[string]interface{}{
@@ -1557,7 +1560,7 @@ var clusterRolePlatformConfigOperatorproxyRole = &unstructured.Unstructured{
 }
 
 
-var roleBindingPlatformConfigOperatorleaderElectionRolebinding = &unstructured.Unstructured{
+var roleBindingPlatformConfigOperatorLeaderElectionRolebinding = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "RoleBinding",
@@ -1565,7 +1568,7 @@ var roleBindingPlatformConfigOperatorleaderElectionRolebinding = &unstructured.U
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1575,18 +1578,18 @@ var roleBindingPlatformConfigOperatorleaderElectionRolebinding = &unstructured.U
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name":      "platform-config-operatorleader-election-rolebinding",
+			"name":      "platform-config-operator-leader-election-rolebinding",
 			"namespace": "tbd-operators-system",
 		},
 		"roleRef": map[string]interface{}{
 			"apiGroup": "rbac.authorization.k8s.io",
 			"kind":     "Role",
-			"name":     "platform-config-operatorleader-election-role",
+			"name":     "platform-config-operator-leader-election-role",
 		},
 		"subjects": []interface{}{
 			map[string]interface{}{
 				"kind":      "ServiceAccount",
-				"name":      "platform-config-operatorcontroller-manager",
+				"name":      "platform-config-operator-controller-manager",
 				"namespace": "tbd-operators-system",
 			},
 		},
@@ -1594,7 +1597,7 @@ var roleBindingPlatformConfigOperatorleaderElectionRolebinding = &unstructured.U
 }
 
 
-var clusterRoleBindingPlatformConfigOperatormanagerRolebinding = &unstructured.Unstructured{
+var clusterRoleBindingPlatformConfigOperatorManagerRolebinding = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "ClusterRoleBinding",
@@ -1602,7 +1605,7 @@ var clusterRoleBindingPlatformConfigOperatormanagerRolebinding = &unstructured.U
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1612,17 +1615,17 @@ var clusterRoleBindingPlatformConfigOperatormanagerRolebinding = &unstructured.U
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name": "platform-config-operatormanager-rolebinding",
+			"name": "platform-config-operator-manager-rolebinding",
 		},
 		"roleRef": map[string]interface{}{
 			"apiGroup": "rbac.authorization.k8s.io",
 			"kind":     "ClusterRole",
-			"name":     "platform-config-operatormanager-role",
+			"name":     "platform-config-operator-manager-role",
 		},
 		"subjects": []interface{}{
 			map[string]interface{}{
 				"kind":      "ServiceAccount",
-				"name":      "platform-config-operatorcontroller-manager",
+				"name":      "platform-config-operator-controller-manager",
 				"namespace": "tbd-operators-system",
 			},
 		},
@@ -1630,7 +1633,7 @@ var clusterRoleBindingPlatformConfigOperatormanagerRolebinding = &unstructured.U
 }
 
 
-var clusterRoleBindingPlatformConfigOperatorproxyRolebinding = &unstructured.Unstructured{
+var clusterRoleBindingPlatformConfigOperatorProxyRolebinding = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
 		"kind":       "ClusterRoleBinding",
@@ -1638,7 +1641,7 @@ var clusterRoleBindingPlatformConfigOperatorproxyRolebinding = &unstructured.Uns
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1648,17 +1651,17 @@ var clusterRoleBindingPlatformConfigOperatorproxyRolebinding = &unstructured.Uns
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "v0.0.1",
 			},
-			"name": "platform-config-operatorproxy-rolebinding",
+			"name": "platform-config-operator-proxy-rolebinding",
 		},
 		"roleRef": map[string]interface{}{
 			"apiGroup": "rbac.authorization.k8s.io",
 			"kind":     "ClusterRole",
-			"name":     "platform-config-operatorproxy-role",
+			"name":     "platform-config-operator-proxy-role",
 		},
 		"subjects": []interface{}{
 			map[string]interface{}{
 				"kind":      "ServiceAccount",
-				"name":      "platform-config-operatorcontroller-manager",
+				"name":      "platform-config-operator-controller-manager",
 				"namespace": "tbd-operators-system",
 			},
 		},
@@ -1666,7 +1669,7 @@ var clusterRoleBindingPlatformConfigOperatorproxyRolebinding = &unstructured.Uns
 }
 
 
-var servicePlatformConfigOperatorcontrollerManagerMetricsService = &unstructured.Unstructured{
+var servicePlatformConfigOperatorControllerManagerMetricsService = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "v1",
 		"kind":       "Service",
@@ -1674,7 +1677,7 @@ var servicePlatformConfigOperatorcontrollerManagerMetricsService = &unstructured
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1685,7 +1688,7 @@ var servicePlatformConfigOperatorcontrollerManagerMetricsService = &unstructured
 				"capabilities.tbd.io/version":          "v0.0.1",
 				"control-plane":                        "controller-manager",
 			},
-			"name":      "platform-config-operatorcontroller-manager-metrics-service",
+			"name":      "platform-config-operator-controller-manager-metrics-service",
 			"namespace": "tbd-operators-system",
 		},
 		"spec": map[string]interface{}{
@@ -1715,7 +1718,7 @@ var servicePlatformConfigOperatorcontrollerManagerMetricsService = &unstructured
 }
 
 
-var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructured{
+var deploymentPlatformConfigOperatorControllerManager = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "apps/v1",
 		"kind":       "Deployment",
@@ -1723,7 +1726,7 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 			"labels": map[string]interface{}{
 				"app":                                  "platform-config-operator",
 				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-config-operator",
+				"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				"app.kubernetes.io/instance":           "manager",
 				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
 				"app.kubernetes.io/name":               "platform-config-operator",
@@ -1734,7 +1737,7 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 				"capabilities.tbd.io/version":          "v0.0.1",
 				"control-plane":                        "controller-manager",
 			},
-			"name":      "platform-config-operatorcontroller-manager",
+			"name":      "platform-config-operator-controller-manager",
 			"namespace": "tbd-operators-system",
 		},
 		"spec": map[string]interface{}{
@@ -1752,6 +1755,7 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 					"capabilities.tbd.io/platform-version": "unstable",
 					"capabilities.tbd.io/version":          "v0.0.1",
 					"control-plane":                        "controller-manager",
+					"app.kubernetes.io/created-by":         "platform-bootstrapper",
 				},
 			},
 			"template": map[string]interface{}{
@@ -1771,6 +1775,7 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 						"capabilities.tbd.io/platform-version": "unstable",
 						"capabilities.tbd.io/version":          "v0.0.1",
 						"control-plane":                        "controller-manager",
+						"app.kubernetes.io/created-by":         "platform-bootstrapper",
 					},
 				},
 				"spec": map[string]interface{}{
@@ -1842,7 +1847,7 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 							"command": []interface{}{
 								"/manager",
 							},
-							"image": "quay.io/tbd-paas/platform-config-operator:latest",
+							"image": "quay.io/tbd-paas/platform-config-operator:v0.0.0-alpha.1",
 							"livenessProbe": map[string]interface{}{
 								"httpGet": map[string]interface{}{
 									"path": "/healthz",
@@ -1892,7 +1897,7 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 						"runAsNonRoot": true,
 						"runAsUser":    1001,
 					},
-					"serviceAccountName":            "platform-config-operatorcontroller-manager",
+					"serviceAccountName":            "platform-config-operator-controller-manager",
 					"terminationGracePeriodSeconds": 10,
 				},
 			},
@@ -1901,15 +1906,63 @@ var deploymentPlatformConfigOperatorcontrollerManager = &unstructured.Unstructur
 }
 
 
-var platformOperatorsPlatformoperatorsSample = &unstructured.Unstructured{
+var platformOperatorsConfig = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "deploy.platform.tbd.io/v1alpha1",
 		"kind":       "PlatformOperators",
 		"metadata": map[string]interface{}{
-			"name": "platformoperators-sample",
+			"name": "config",
+			"labels": map[string]interface{}{
+				"app":                                  "platform-config-operator",
+				"app.kubernetes.io/component":          "platform-config-operator",
+				"app.kubernetes.io/name":               "platform-config-operator",
+				"app.kubernetes.io/part-of":            "platform",
+				"app.kubernetes.io/version":            "unstable",
+				"capabilities.tbd.io/capability":       "platform-config-operator",
+				"capabilities.tbd.io/platform-version": "unstable",
+				"capabilities.tbd.io/version":          "unstable",
+			},
 		},
 		"spec": map[string]interface{}{
 			"namespace": "tbd-operators-system",
+		},
+	},
+}
+
+
+
+var platformConfigConfig = &unstructured.Unstructured{
+	Object: map[string]interface{}{
+		"apiVersion": "deploy.platform.tbd.io/v1alpha1",
+		"kind":       "PlatformConfig",
+		"metadata": map[string]interface{}{
+			"name": "config",
+			"labels": map[string]interface{}{
+				"app":                                  "platform-config-operator",
+				"app.kubernetes.io/component":          "platform-config-operator",
+				"app.kubernetes.io/name":               "platform-config-operator",
+				"app.kubernetes.io/part-of":            "platform",
+				"app.kubernetes.io/version":            "unstable",
+				"capabilities.tbd.io/capability":       "platform-config-operator",
+				"capabilities.tbd.io/platform-version": "unstable",
+				"capabilities.tbd.io/version":          "unstable",
+			},
+		},
+		"spec": map[string]interface{}{
+			"platform": map[string]interface{}{
+				"certificates": map[string]interface{}{
+					"namespace":      "tbd-certificates-system",
+					"deploymentSize": "small",
+				},
+				"identity": map[string]interface{}{
+					"namespace":      "tbd-identity-system",
+					"deploymentSize": "small",
+				},
+			},
+			"cloud": map[string]interface{}{
+				"type":  "aws",
+				"local": true,
+			},
 		},
 	},
 }
