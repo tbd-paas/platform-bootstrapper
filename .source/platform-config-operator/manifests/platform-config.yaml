@@ -12,6 +12,9 @@ metadata:
     capabilities.tbd.io/capability: platform-config-operator
     capabilities.tbd.io/platform-version: unstable
     capabilities.tbd.io/version: unstable
+  annotations:
+    operator-builder.nukleros.io/ready-path: .status.created
+    operator-builder.nukleros.io/ready-value: "true"
 spec:
   platform:
     certificates:

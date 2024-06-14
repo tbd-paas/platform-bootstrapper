@@ -2,9 +2,9 @@ package resources
 
 import "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
-// Namespace returns the namespace where the platform controllers will be deployed.
-func Namespace() *unstructured.Unstructured {
-	return namespaceTbdOperatorsSystem
+// Namespaces returns the namespace where the platform controllers will be deployed.
+func Namespaces() []*unstructured.Unstructured {
+	return []*unstructured.Unstructured{namespaceTbdOperatorsSystem}
 }
 
 // CustomResourceDefinintions returns any custom resource definitions that the controllers
@@ -30,30 +30,30 @@ func RBAC() []*unstructured.Unstructured {
 	}
 }
 
-// Deployment returns the actual deployment resource that runs the controller.
-func Deployment() *unstructured.Unstructured {
-	return deploymentPlatformConfigOperatorControllerManager
+// Deployments returns the actual deployment resource that runs the controller.
+func Deployments() []*unstructured.Unstructured {
+	return []*unstructured.Unstructured{deploymentPlatformConfigOperatorControllerManager}
 }
 
-// Service returns the actual service resource that runs the controller.
-func Service() *unstructured.Unstructured {
-	return servicePlatformConfigOperatorControllerManagerMetricsService
+// Services returns the actual service resource that runs the controller.
+func Services() []*unstructured.Unstructured {
+	return []*unstructured.Unstructured{servicePlatformConfigOperatorControllerManagerMetricsService}
 }
 
-// OperatorDeploymentConfig returns the resource to control the platform operator deployments.
-func OperatorDeploymentConfig() *unstructured.Unstructured {
+// OperatorDeploymentConfigs returns the resource to control the platform operator deployments.
+func OperatorDeploymentConfigs() []*unstructured.Unstructured {
 	deployment := platformOperatorsConfig
 
 	deployment.SetName("config")
 
-	return deployment
+	return []*unstructured.Unstructured{deployment}
 }
 
-// Config returns the resource to control the platform configuration.
-func Config() *unstructured.Unstructured {
+// Configs returns the resource to control the platform configuration.
+func Configs() []*unstructured.Unstructured {
 	config := platformConfigConfig
 
 	config.SetName("config")
 
-	return config
+	return []*unstructured.Unstructured{config}
 }

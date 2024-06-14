@@ -18,6 +18,48 @@ commonOverlays:
       app.kubernetes.io/managed-by: platform-bootstrapper
       app.kubernetes.io/created-by: platform-bootstrapper
 
+  - name: "platform operator manifests"
+    query: "metadata"
+    documentQuery:
+      - conditions:
+          - query: $[?($.kind == "PlatformOperators")]
+    action: "merge"
+    value:
+      name: "config"
+      labels:
+        app: platform-config-operator
+        app.kubernetes.io/component: platform-config-operator
+        app.kubernetes.io/name: platform-config-operator
+        app.kubernetes.io/part-of: platform
+        app.kubernetes.io/version: "{{ .platformVersion }}"
+        capabilities.tbd.io/capability: platform-config-operator
+        capabilities.tbd.io/platform-version: "{{ .platformVersion }}"
+        capabilities.tbd.io/version: "{{ .platformVersion }}"
+      annotations:
+        operator-builder.nukleros.io/ready-path: ".status.created"
+        operator-builder.nukleros.io/ready-value: "true"
+
+  - name: "platform config manifests"
+    query: "metadata"
+    documentQuery:
+      - conditions:
+          - query: $[?($.kind == "PlatformConfig")]
+    action: "merge"
+    value:
+      name: "config"
+      labels:
+        app: platform-config-operator
+        app.kubernetes.io/component: platform-config-operator
+        app.kubernetes.io/name: platform-config-operator
+        app.kubernetes.io/part-of: platform
+        app.kubernetes.io/version: "{{ .platformVersion }}"
+        capabilities.tbd.io/capability: platform-config-operator
+        capabilities.tbd.io/platform-version: "{{ .platformVersion }}"
+        capabilities.tbd.io/version: "{{ .platformVersion }}"
+      annotations:
+        operator-builder.nukleros.io/ready-path: ".status.created"
+        operator-builder.nukleros.io/ready-value: "true"
+
 yamlFiles:
   - name: "platform config operator manifests"
     path: "../vendor/operator/manifests.yaml"
@@ -26,43 +68,7 @@ yamlFiles:
   - name: "platform operator manifests"
     path: "../vendor/deploy/deploy_v1alpha1_platformoperators.yaml"
     outputPath: "manifests/platform-operators.yaml"
-    overlays:
-      - name: "add labels to platform operator resource"
-        query: "metadata"
-        documentQuery:
-          - conditions:
-              - query: $[?($.kind == "PlatformOperators")]
-        action: "merge"
-        value:
-          name: "config"
-          labels:
-            app: platform-config-operator
-            app.kubernetes.io/component: platform-config-operator
-            app.kubernetes.io/name: platform-config-operator
-            app.kubernetes.io/part-of: platform
-            app.kubernetes.io/version: "{{ .platformVersion }}"
-            capabilities.tbd.io/capability: platform-config-operator
-            capabilities.tbd.io/platform-version: "{{ .platformVersion }}"
-            capabilities.tbd.io/version: "{{ .platformVersion }}"
 
   - name: "platform config manifests"
     path: "../vendor/deploy/deploy_v1alpha1_platformconfig.yaml"
     outputPath: "manifests/platform-config.yaml"
-    overlays:
-      - name: "add labels to platform operator resource"
-        query: "metadata"
-        documentQuery:
-          - conditions:
-              - query: $[?($.kind == "PlatformConfig")]
-        action: "merge"
-        value:
-          name: "config"
-          labels:
-            app: platform-config-operator
-            app.kubernetes.io/component: platform-config-operator
-            app.kubernetes.io/name: platform-config-operator
-            app.kubernetes.io/part-of: platform
-            app.kubernetes.io/version: "{{ .platformVersion }}"
-            capabilities.tbd.io/capability: platform-config-operator
-            capabilities.tbd.io/platform-version: "{{ .platformVersion }}"
-            capabilities.tbd.io/version: "{{ .platformVersion }}"

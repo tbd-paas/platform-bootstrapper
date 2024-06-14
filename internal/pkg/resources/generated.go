@@ -1922,6 +1922,10 @@ var platformOperatorsConfig = &unstructured.Unstructured{
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "unstable",
 			},
+			"annotations": map[string]interface{}{
+				"operator-builder.nukleros.io/ready-path":  ".status.created",
+				"operator-builder.nukleros.io/ready-value": "true",
+			},
 		},
 		"spec": map[string]interface{}{
 			"namespace": "tbd-operators-system",
@@ -1946,6 +1950,10 @@ var platformConfigConfig = &unstructured.Unstructured{
 				"capabilities.tbd.io/capability":       "platform-config-operator",
 				"capabilities.tbd.io/platform-version": "unstable",
 				"capabilities.tbd.io/version":          "unstable",
+			},
+			"annotations": map[string]interface{}{
+				"operator-builder.nukleros.io/ready-path":  ".status.created",
+				"operator-builder.nukleros.io/ready-value": "true",
 			},
 		},
 		"spec": map[string]interface{}{
