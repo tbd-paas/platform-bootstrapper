@@ -2,10 +2,12 @@ package bootstrapper
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/rs/zerolog"
+	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -38,26 +40,36 @@ func NewBootstrapper(client *Client, options ...Option) *Bootstrapper {
 
 // RunAction runs a specific bootstrap action against a set of resources.
 func (b *Bootstrapper) RunAction(action bootstrapAction, resources ...*unstructured.Unstructured) error {
+	index := 0
+
 	// run the action against the resources
-	for _, resource := range resources {
+	for index < len(resources) {
 		// get the group version resource for this resource
-		gvr, err := b.Client.GetGroupVersionResource(resource.GroupVersionKind())
+		gvr, err := b.Client.GetGroupVersionResource(resources[index].GroupVersionKind())
 		if err != nil {
-			return fmt.Errorf("unable to get group version resource for: [%s] - %w", ResourceMessage(resource), err)
+			proper := errors.Unwrap(err)
+
+			switch proper.(type) {
+			case *meta.NoKindMatchError:
+				b.Client.API.Reset()
+				continue
+			default:
+				return fmt.Errorf("unable to get group version resource for: [%s] - %w", ResourceMessage(resources[index]), err)
+			}
 		}
 
 		// run the specific action against this resource
-		if err := action(resource, gvr); err != nil {
+		if err := action(resources[index], gvr); err != nil {
 			return err
 		}
 
 		// if we have extended the kubernetes api with a custom resource definition, we need to rediscover
-		// the api resources
-		if resource.GroupVersionKind().Kind == "CustomResourceDefinition" {
-			if err := b.Client.DiscoverAPIResources(); err != nil {
-				return fmt.Errorf("unable to discover api resources for: [%s] - %w", ResourceMessage(resource), err)
-			}
+		// the api resources so we invalidate the cache to force re-discovery
+		if resources[index].GroupVersionKind().Kind == "CustomResourceDefinition" {
+			b.Client.API.Reset()
 		}
+
+		index++
 	}
 
 	return nil
@@ -87,7 +99,7 @@ func (b *Bootstrapper) Destroy(resource *unstructured.Unstructured, gvr *schema.
 	// remove the resource from the cluster
 	b.Log.Info().Msgf("destroying resource - %s", ResourceMessage(resource))
 	if err := b.Client.Destroy(resource, gvr); err != nil {
-		return fmt.Errorf("unable to apply resource: [%s] - %w", ResourceMessage(resource), err)
+		return fmt.Errorf("unable to destroy resource: [%s] - %w", ResourceMessage(resource), err)
 	}
 
 	// wait for resource to be missing from the cluster before moving on

@@ -58,18 +58,28 @@ func NewClient(ctx context.Context, kubeconfigFile string) (client *Client, err 
 		}
 	}
 
+	// create a discovery client use for mapping GVK to GVR
+	discoveryClient, err := discovery.NewDiscoveryClientForConfig(kubeconfig)
+	if err != nil {
+		return nil, fmt.Errorf("%s - %w", ErrCreateDiscoveryClient, err)
+	}
+
+	// create a rest mapper that is used to convert GVK to GVR
+	mapper := restmapper.NewDeferredDiscoveryRESTMapper(memory.NewMemCacheClient(discoveryClient))
+	mapper.Reset()
+
+	// create the kubernetes dynamic client
 	dynamicClient, err := dynamic.NewForConfig(kubeconfig)
 	if err != nil {
 		return nil, fmt.Errorf("error creating dynamic client - %w", err)
 	}
 
-	client = &Client{
+	return &Client{
 		Context: ctx,
 		Config:  kubeconfig,
 		Client:  dynamicClient,
-	}
-
-	return client, client.DiscoverAPIResources()
+		API:     mapper,
+	}, nil
 }
 
 // Apply applies a particular resource to a cluster.
@@ -131,25 +141,6 @@ func (client *Client) WaitForDestroy(resource *unstructured.Unstructured, gvr *s
 	if err := client.waitFor(resource, gvr, isMissing); err != nil {
 		return fmt.Errorf("unable to wait for resource destruction - %w", err)
 	}
-
-	return nil
-}
-
-// DiscoverAPIResources discovers the API resources from the Kubernetes API and stores a REST mapper
-// object used to do things like create GVRs.
-func (client *Client) DiscoverAPIResources() error {
-	if client.API != nil {
-		client.API.Reset()
-	}
-
-	// create a discovery client use for mapping GVK to GVR
-	discoveryClient, err := discovery.NewDiscoveryClientForConfig(client.Config)
-	if err != nil {
-		return fmt.Errorf("%s - %w", ErrCreateDiscoveryClient, err)
-	}
-
-	// create a rest mapper that is used to convert GVK to GVR
-	client.API = restmapper.NewDeferredDiscoveryRESTMapper(memory.NewMemCacheClient(discoveryClient))
 
 	return nil
 }
