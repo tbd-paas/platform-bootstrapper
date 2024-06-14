@@ -1,12 +1,28 @@
 {
 	"configurations": [
-	{
-		"name": "Test Run",
-		"type": "go",
-		"request": "launch",
-		"mode": "debug",
-		"program": "${workspaceFolder}/main.go",
-		"cwd": "${workspaceFolder}",
-	},
-]
+		{
+			"name": "Test Apply",
+			"type": "go",
+			"request": "launch",
+			"mode": "debug",
+			"program": "${workspaceFolder}/main.go",
+			"cwd": "${workspaceFolder}",
+			"env": {
+				"BOOTSTRAP_ACTION": "apply",
+				"KUBECONFIG": "/Users/dscott/.kube/config"
+			}
+		},
+		{
+			"name": "Test Destroy",
+			"type": "go",
+			"request": "launch",
+			"mode": "debug",
+			"program": "${workspaceFolder}/main.go",
+			"cwd": "${workspaceFolder}",
+			"env": {
+				"BOOTSTRAP_ACTION": "destroy",
+				"KUBECONFIG": "/Users/dscott/.kube/config"
+			}
+		},
+	]
 }

@@ -1,6 +1,8 @@
 package resources
 
-import "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+import (
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+)
 
 // Namespaces returns the namespace where the platform controllers will be deployed.
 func Namespaces() []*unstructured.Unstructured {
@@ -56,4 +58,36 @@ func Configs() []*unstructured.Unstructured {
 	config.SetName("config")
 
 	return []*unstructured.Unstructured{config}
+}
+
+// ApplyOrder returns the order in which resources need to be applied.
+func ApplyOrder() []*unstructured.Unstructured {
+	objects := []*unstructured.Unstructured{}
+
+	for _, group := range [][]*unstructured.Unstructured{
+		CustomResourceDefinitions(),
+		Namespaces(),
+		RBAC(),
+		Deployments(),
+		Services(),
+		OperatorDeploymentConfigs(),
+		Configs(),
+	} {
+		objects = append(objects, group...)
+	}
+
+	return objects
+}
+
+// DestroyOrder returns the order in which resources need to be destroyed.
+func DestroyOrder() []*unstructured.Unstructured {
+	forward := ApplyOrder()
+
+	reverse := make([]*unstructured.Unstructured, len(forward))
+
+	for i, j := len(forward)-1, 0; j < len(forward); i, j = i-1, j+1 {
+		reverse[j] = forward[i]
+	}
+
+	return reverse
 }
