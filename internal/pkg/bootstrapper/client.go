@@ -174,29 +174,25 @@ func (client *Client) waitFor(resource *unstructured.Unstructured, gvr *schema.G
 		return ErrMissingGroupVersionResource
 	}
 
+	// run the initial check so we do not have to wait for the interval ticker
+	condition, err := client.runCheck(resource, gvr, f)
+	if err != nil {
+		return fmt.Errorf("unable to determine resource condition - %w", err)
+	}
+
+	if condition {
+		return nil
+	}
+
 	timeout, interval := time.After(waitTimeout), time.NewTicker(waitInterval)
+	defer interval.Stop()
 
 	for {
 		select {
 		case <-timeout:
 			return fmt.Errorf("timed out waiting for resource")
 		case <-interval.C:
-			resourceFromCluster, err := client.Client.Resource(*gvr).Namespace(resource.GetNamespace()).Get(
-				client.Context,
-				resource.GetName(),
-				metav1.GetOptions{},
-			)
-
-			if err != nil {
-				if !apierrors.IsNotFound(err) {
-					return fmt.Errorf("unable to get resource - %w", err)
-				}
-
-				// ensure we have a nil resource
-				resourceFromCluster = nil
-			}
-
-			condition, err := f(resourceFromCluster)
+			condition, err := client.runCheck(resource, gvr, f)
 			if err != nil {
 				return fmt.Errorf("unable to determine resource condition - %w", err)
 			}
@@ -206,6 +202,25 @@ func (client *Client) waitFor(resource *unstructured.Unstructured, gvr *schema.G
 			}
 		}
 	}
+}
+
+func (client *Client) runCheck(resource *unstructured.Unstructured, gvr *schema.GroupVersionResource, f checkFunction) (bool, error) {
+	resourceFromCluster, err := client.Client.Resource(*gvr).Namespace(resource.GetNamespace()).Get(
+		client.Context,
+		resource.GetName(),
+		metav1.GetOptions{},
+	)
+
+	if err != nil {
+		if !apierrors.IsNotFound(err) {
+			return false, fmt.Errorf("unable to get resource - %w", err)
+		}
+
+		// ensure we have a nil resource
+		resourceFromCluster = nil
+	}
+
+	return f(resourceFromCluster)
 }
 
 type checkFunction func(*unstructured.Unstructured) (bool, error)
