@@ -66,7 +66,6 @@ func NewClient(ctx context.Context, kubeconfigFile string) (client *Client, err 
 
 	// create a rest mapper that is used to convert GVK to GVR
 	mapper := restmapper.NewDeferredDiscoveryRESTMapper(memory.NewMemCacheClient(discoveryClient))
-	mapper.Reset()
 
 	// create the kubernetes dynamic client
 	dynamicClient, err := dynamic.NewForConfig(kubeconfig)

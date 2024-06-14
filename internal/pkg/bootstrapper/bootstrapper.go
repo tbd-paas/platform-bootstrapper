@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/rs/zerolog"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -41,35 +42,37 @@ func NewBootstrapper(client *Client, options ...Option) *Bootstrapper {
 // RunAction runs a specific bootstrap action against a set of resources.
 func (b *Bootstrapper) RunAction(action bootstrapAction, resources ...*unstructured.Unstructured) error {
 	index := 0
+	timeout := time.After(waitTimeout)
 
 	// run the action against the resources
 	for index < len(resources) {
-		// get the group version resource for this resource
-		gvr, err := b.Client.GetGroupVersionResource(resources[index].GroupVersionKind())
-		if err != nil {
-			proper := errors.Unwrap(err)
+		select {
+		case <-timeout:
+			return fmt.Errorf("timed out waiting for action completion")
+		default:
+			// get the group version resource for this resource
+			gvr, err := b.Client.GetGroupVersionResource(resources[index].GroupVersionKind())
+			if err != nil {
+				proper := errors.Unwrap(err)
 
-			switch proper.(type) {
-			case *meta.NoKindMatchError:
-				b.Client.API.Reset()
-				continue
-			default:
-				return fmt.Errorf("unable to get group version resource for: [%s] - %w", ResourceMessage(resources[index]), err)
+				// restart the loop if we have a NoKindMatchError
+				switch proper.(type) {
+				case *meta.NoKindMatchError:
+					b.Client.API.Reset()
+
+					continue
+				default:
+					return fmt.Errorf("unable to get group version resource for: [%s] - %w", ResourceMessage(resources[index]), err)
+				}
 			}
-		}
 
-		// run the specific action against this resource
-		if err := action(resources[index], gvr); err != nil {
-			return err
-		}
+			// run the specific action against this resource
+			if err := action(resources[index], gvr); err != nil {
+				return err
+			}
 
-		// if we have extended the kubernetes api with a custom resource definition, we need to rediscover
-		// the api resources so we invalidate the cache to force re-discovery
-		if resources[index].GroupVersionKind().Kind == "CustomResourceDefinition" {
-			b.Client.API.Reset()
+			index++
 		}
-
-		index++
 	}
 
 	return nil
