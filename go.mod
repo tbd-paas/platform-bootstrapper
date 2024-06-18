@@ -8,7 +8,7 @@ require (
 	emperror.dev/errors v0.8.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/briandowns/spinner v1.23.0 // indirect
-	github.com/cert-manager/cert-manager v1.15.0 // indirect
+	github.com/cert-manager/cert-manager v1.14.4 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cisco-open/k8s-objectmatcher v1.9.0 // indirect
 	github.com/cisco-open/operator-tools v0.34.0 // indirect
@@ -48,6 +48,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/wayneashleyberry/terminal-dimensions v1.1.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
+	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8 // indirect
 	golang.org/x/net v0.26.0 // indirect
 	golang.org/x/oauth2 v0.21.0 // indirect
@@ -66,13 +67,13 @@ require (
 	k8s.io/kube-openapi v0.0.0-20240521193020-835d969ad83a // indirect
 	k8s.io/utils v0.0.0-20240502163921-fe8a2dddb1d0 // indirect
 	sigs.k8s.io/controller-runtime v0.18.4 // indirect
-	sigs.k8s.io/gateway-api v1.1.0 // indirect
+	sigs.k8s.io/gateway-api v1.0.0 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace github.com/nukleros/operator-builder-tools => /Users/dscott/VSCode/github/scottd018/operator-builder-tools
+replace github.com/nukleros/operator-builder-tools => github.com/scottd018/operator-builder-tools v0.0.0-20240617210208-57a6cf783a9f
 
 require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
