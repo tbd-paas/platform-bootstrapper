@@ -60,15 +60,14 @@ jobs:
       #       needs to be a part of the pipeline.
       - name: "Generate Bootstrapper Manifests"
         run: |
-          for MANIFEST in $(find dist/); do
-            echo "---" >> /tmp/manifests
+          echo 'skipping for now...'
 
       - name: "Upload Bootstrapper Manifests to Release"
         uses: "xresloader/upload-to-github-release@v1"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "/tmp/manifests.yaml"
+          file: "dist/manifests.yaml"
           tags: true
           verbose: true
           update_latest_release: true
