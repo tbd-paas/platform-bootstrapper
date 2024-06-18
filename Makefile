@@ -84,8 +84,9 @@ install-linter:
 lint:
 	golangci-lint run
 
+IMG ?= quay.io/tbd-paas/platform-bootstrapper:latest
 .PHONY: docker-build
-docker-build: test
+docker-build:
 	docker build -t $(IMG) .
 
 .PHONY: docker-push

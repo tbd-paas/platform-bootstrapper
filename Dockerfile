@@ -10,6 +10,7 @@ COPY go.sum go.sum
 RUN go mod download
 
 # Copy the go source
+COPY main.go main.go
 COPY internal/ internal/
 
 # Build
