@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-bootstrapper
+  labels:
+    app: platform-bootstrapper
+    app.kubernetes.io/name: platform-bootstrapper
+    app.kubernetes.io/instance: platform-bootstrapper
+    app.kubernetes.io/component: platform-bootstrapper
+    capabilities.tbd.io/capability: platform-bootstrapper
+    capabilities.tbd.io/version: v0.0.1
+    capabilities.tbd.io/platform-version: unstable
+    app.kubernetes.io/version: v0.0.1
+    app.kubernetes.io/part-of: platform
+    app.kubernetes.io/managed-by: tbd

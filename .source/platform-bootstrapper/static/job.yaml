@@ -1,0 +1,64 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: platform-bootstrapper
+    app.kubernetes.io/name: platform-bootstrapper
+    app.kubernetes.io/instance: platform-bootstrapper
+    app.kubernetes.io/component: platform-bootstrapper
+    capabilities.tbd.io/capability: platform-bootstrapper
+    capabilities.tbd.io/version: v0.0.1
+    capabilities.tbd.io/platform-version: unstable
+    app.kubernetes.io/version: v0.0.1
+    app.kubernetes.io/part-of: platform
+    app.kubernetes.io/managed-by: tbd
+  name: platform-bootstrapper
+  namespace: tbd-operators-system
+spec:
+  activeDeadlineSeconds: 900
+  backoffLimit: 1
+  manualSelector: false
+  template:
+    metadata:
+      labels:
+        app: platform-bootstrapper
+        app.kubernetes.io/name: platform-bootstrapper
+        app.kubernetes.io/instance: platform-bootstrapper
+        app.kubernetes.io/component: platform-bootstrapper
+        capabilities.tbd.io/capability: platform-bootstrapper
+        capabilities.tbd.io/version: v0.0.1
+        capabilities.tbd.io/platform-version: unstable
+        app.kubernetes.io/version: v0.0.1
+        app.kubernetes.io/part-of: platform
+        app.kubernetes.io/managed-by: tbd
+    spec:
+      containers:
+      - command:
+        - /platform-bootstrapper
+        image: quay.io/tbd-paas/platform-bootstrapper:latest
+        name: platform-bootstrapper
+        resources:
+          limits:
+            cpu: 125m
+            memory: 64Mi
+          requests:
+            cpu: 10m
+            memory: 16Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+      nodeSelector:
+        kubernetes.io/arch: arm64
+        kubernetes.io/os: linux
+        tbd.io/node-type: platform
+      securityContext:
+        fsGroup: 1001
+        runAsGroup: 1001
+        runAsNonRoot: true
+        runAsUser: 1001
+      serviceAccountName: platform-bootstrapper
+      terminationGracePeriodSeconds: 10

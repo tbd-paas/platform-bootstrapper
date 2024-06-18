@@ -1,0 +1,56 @@
+commonOverlays:
+  - name: "remove creation timestampe"
+    query:
+      - metadata.creationTimestamp
+    action: delete
+
+  - name: "add labels"
+    query:
+      - metadata.labels
+    action: merge
+    value:
+      app.kubernetes.io/managed-by: tbd
+      app.kubernetes.io/created-by: tbd
+
+  - name: "add labels to pods"
+    query:
+      - spec.template.metadata.labels
+      - spec.selector.matchLabels
+    action: merge
+    onMissing:
+      action: ignore
+    value:
+      app.kubernetes.io/managed-by: tbd
+      app.kubernetes.io/created-by: tbd
+
+  - name: "platform bootstrapper labels"
+    query: "metadata"
+    action: "merge"
+    value:
+      labels:
+        app: platform-bootstrapper
+        app.kubernetes.io/name: platform-bootstrapper
+        app.kubernetes.io/instance: platform-bootstrapper
+        app.kubernetes.io/component: platform-bootstrapper
+        app.kubernetes.io/version: "{{ .platformVersion }}"
+        app.kubernetes.io/part-of: platform
+        capabilities.tbd.io/capability: platform-bootstrapper
+        capabilities.tbd.io/version: "{{ .platformVersion }}"
+        capabilities.tbd.io/platform-version: "{{ .platformVersion }}"
+
+yamlFiles:
+  - name: "namespace manifest"
+    path: "../static/namespace.yaml"
+    outputPath: "../../dist/namespace.yaml"
+
+  - name: "rbac manifests"
+    path: "../static/rbac.yaml"
+    outputPath: "../../dist/rbac.yaml"
+
+  - name: "rbac binding manifests"
+    path: "../static/rbac-bindings.yaml"
+    outputPath: "../../dist/rbac-bindings.yaml"
+
+  - name: "job manifest"
+    path: "../static/job.yaml"
+    outputPath: "../../dist/job.yaml"

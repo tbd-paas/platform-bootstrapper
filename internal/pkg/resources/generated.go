@@ -2,8 +2,6 @@ package resources
 
 import "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
-
-
 var namespaceTbdOperatorsSystem = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "v1",
@@ -27,8 +25,6 @@ var namespaceTbdOperatorsSystem = &unstructured.Unstructured{
 		},
 	},
 }
-
-
 
 var customResourceDefinitionPlatformconfigsDeployPlatformTbdIo = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -290,7 +286,6 @@ of the controller reconciliation loop.`,
 	},
 }
 
-
 var customResourceDefinitionPlatformoperatorsDeployPlatformTbdIo = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "apiextensions.k8s.io/v1",
@@ -481,7 +476,6 @@ of the controller reconciliation loop.`,
 	},
 }
 
-
 var serviceAccountPlatformConfigOperatorControllerManager = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "v1",
@@ -505,7 +499,6 @@ var serviceAccountPlatformConfigOperatorControllerManager = &unstructured.Unstru
 		},
 	},
 }
-
 
 var rolePlatformConfigOperatorLeaderElectionRole = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -578,7 +571,6 @@ var rolePlatformConfigOperatorLeaderElectionRole = &unstructured.Unstructured{
 		},
 	},
 }
-
 
 var clusterRolePlatformConfigOperatorManagerRole = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -1477,7 +1469,6 @@ var clusterRolePlatformConfigOperatorManagerRole = &unstructured.Unstructured{
 	},
 }
 
-
 var clusterRolePlatformConfigOperatorMetricsReader = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
@@ -1510,7 +1501,6 @@ var clusterRolePlatformConfigOperatorMetricsReader = &unstructured.Unstructured{
 		},
 	},
 }
-
 
 var clusterRolePlatformConfigOperatorProxyRole = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -1559,7 +1549,6 @@ var clusterRolePlatformConfigOperatorProxyRole = &unstructured.Unstructured{
 	},
 }
 
-
 var roleBindingPlatformConfigOperatorLeaderElectionRolebinding = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
@@ -1596,7 +1585,6 @@ var roleBindingPlatformConfigOperatorLeaderElectionRolebinding = &unstructured.U
 	},
 }
 
-
 var clusterRoleBindingPlatformConfigOperatorManagerRolebinding = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
@@ -1632,7 +1620,6 @@ var clusterRoleBindingPlatformConfigOperatorManagerRolebinding = &unstructured.U
 	},
 }
 
-
 var clusterRoleBindingPlatformConfigOperatorProxyRolebinding = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "rbac.authorization.k8s.io/v1",
@@ -1667,7 +1654,6 @@ var clusterRoleBindingPlatformConfigOperatorProxyRolebinding = &unstructured.Uns
 		},
 	},
 }
-
 
 var servicePlatformConfigOperatorControllerManagerMetricsService = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -1716,7 +1702,6 @@ var servicePlatformConfigOperatorControllerManagerMetricsService = &unstructured
 		},
 	},
 }
-
 
 var deploymentPlatformConfigOperatorControllerManager = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -1905,7 +1890,6 @@ var deploymentPlatformConfigOperatorControllerManager = &unstructured.Unstructur
 	},
 }
 
-
 var platformOperatorsConfig = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "deploy.platform.tbd.io/v1alpha1",
@@ -1932,8 +1916,6 @@ var platformOperatorsConfig = &unstructured.Unstructured{
 		},
 	},
 }
-
-
 
 var platformConfigConfig = &unstructured.Unstructured{
 	Object: map[string]interface{}{
@@ -1974,5 +1956,3 @@ var platformConfigConfig = &unstructured.Unstructured{
 		},
 	},
 }
-
-

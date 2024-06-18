@@ -34,7 +34,7 @@ var (
 )
 
 // Client represents the boostrapper client which is used to interact with the Kubernetes API for
-// bootstrapping resources
+// bootstrapping resources.
 type Client struct {
 	Context context.Context
 	Client  *dynamic.DynamicClient
@@ -61,7 +61,7 @@ func NewClient(ctx context.Context, kubeconfigFile string) (client *Client, err 
 	// create a discovery client use for mapping GVK to GVR
 	discoveryClient, err := discovery.NewDiscoveryClientForConfig(kubeconfig)
 	if err != nil {
-		return nil, fmt.Errorf("%s - %w", ErrCreateDiscoveryClient, err)
+		return nil, fmt.Errorf("%s - %w", ErrCreateDiscoveryClient.Error(), err)
 	}
 
 	// create a rest mapper that is used to convert GVK to GVR
@@ -148,7 +148,7 @@ func (client *Client) WaitForDestroy(resource *unstructured.Unstructured, gvr *s
 func (client *Client) GetGroupVersionResource(gvk schema.GroupVersionKind) (*schema.GroupVersionResource, error) {
 	mapping, err := client.API.RESTMapping(gvk.GroupKind(), gvk.Version)
 	if err != nil {
-		return nil, fmt.Errorf("%s - %w", ErrGetRESTMapping, err)
+		return nil, fmt.Errorf("%s - %w", ErrGetRESTMapping.Error(), err)
 	}
 
 	return &mapping.Resource, nil

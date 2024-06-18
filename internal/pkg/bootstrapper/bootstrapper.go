@@ -55,7 +55,9 @@ func (b *Bootstrapper) RunAction(action bootstrapAction, resources ...*unstructu
 			if err != nil {
 				proper := errors.Unwrap(err)
 
-				// restart the loop if we have a NoKindMatchError
+				// restart the loop if we have a NoKindMatchError.
+				// TODO: we need to handle this better as we progress this project.
+				//nolint:errorLint
 				switch proper.(type) {
 				case *meta.NoKindMatchError:
 					b.Client.API.Reset()

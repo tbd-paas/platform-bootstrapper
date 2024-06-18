@@ -3,7 +3,7 @@ directories:
 - contents:
   - http: {}
     path: .
-  path: platform-config-operator/vendor/operator
+  path: .source/platform-config-operator/vendor/operator
 - contents:
   - git:
       commitTitle: 'fix: controller-manager prefix...'
@@ -11,5 +11,5 @@ directories:
       tags:
       - v0.0.0-alpha.1
     path: .
-  path: platform-config-operator/vendor/deploy
+  path: .source/platform-config-operator/vendor/deploy
 kind: LockConfig

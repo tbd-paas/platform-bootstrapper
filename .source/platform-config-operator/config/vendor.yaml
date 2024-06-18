@@ -4,7 +4,7 @@ kind: Config
 minimumRequiredVersion: 0.30.0
 directories:
   # controller manifests to deploy the platform-config controller
-  - path: platform-config-operator/vendor/operator
+  - path: .source/platform-config-operator/vendor/operator
     contents:
       - path: ./
         http:
@@ -13,7 +13,7 @@ directories:
   # deployment manifests to deploy the capability components
   # NOTE: we only need to deploy the operators here as we expect our platform-boostrapper
   #       to be passed in an appropriate PlatformConfig resource to create
-  - path: platform-config-operator/vendor/deploy
+  - path: .source/platform-config-operator/vendor/deploy
     contents:
       - path: ./
         git:
