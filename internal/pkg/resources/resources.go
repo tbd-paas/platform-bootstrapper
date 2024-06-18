@@ -6,7 +6,7 @@ import (
 
 // Namespaces returns the namespace where the platform controllers will be deployed.
 func Namespaces() []*unstructured.Unstructured {
-	return []*unstructured.Unstructured{namespaceTbdOperatorsSystem}
+	return []*unstructured.Unstructured{}
 }
 
 // CustomResourceDefinintions returns any custom resource definitions that the controllers

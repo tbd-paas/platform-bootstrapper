@@ -33,6 +33,13 @@ overlay-bootstrapper:
 		--output-directory=$(PLATFORM_BOOTSTRAPPER_DIR) \
 		--values-file=$(PLATFORM_BOOTSTRAPPER_DIR)/config/values.yaml
 
+bootstrapper-manifests:
+	rm -rf dist
+	mkdir -p dist
+	for manifest in $$(find $(PLATFORM_BOOTSTRAPPER_DIR)/manifests -type f); do \
+		cat $$manifest >> dist/manifests.yaml; \
+	done
+
 MANIFESTS_DIR ?= $(PLATFORM_CONFIG_OPERATOR_DIR)/manifests
 RESOURCES_FILE ?= internal/pkg/resources/generated.go
 resources:

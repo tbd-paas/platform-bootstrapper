@@ -1,4 +1,11 @@
 commonOverlays:
+  - name: "remove all namespace resources"
+    query: "$"
+    action: delete
+    documentQuery:
+      - conditions:
+          - query: $[?($.kind == "Namespace")]
+          
   - name: "add labels"
     query:
       - metadata.labels

@@ -2,30 +2,6 @@ package resources
 
 import "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
-var namespaceTbdOperatorsSystem = &unstructured.Unstructured{
-	Object: map[string]interface{}{
-		"apiVersion": "v1",
-		"kind":       "Namespace",
-		"metadata": map[string]interface{}{
-			"labels": map[string]interface{}{
-				"app":                                  "platform-config-operator",
-				"app.kubernetes.io/component":          "platform-config-operator",
-				"app.kubernetes.io/created-by":         "platform-bootstrapper",
-				"app.kubernetes.io/instance":           "manager",
-				"app.kubernetes.io/managed-by":         "platform-bootstrapper",
-				"app.kubernetes.io/name":               "platform-config-operator",
-				"app.kubernetes.io/part-of":            "platform",
-				"app.kubernetes.io/version":            "v0.0.1",
-				"capabilities.tbd.io/capability":       "platform-config-operator",
-				"capabilities.tbd.io/platform-version": "unstable",
-				"capabilities.tbd.io/version":          "v0.0.1",
-				"control-plane":                        "controller-manager",
-			},
-			"name": "tbd-operators-system",
-		},
-	},
-}
-
 var customResourceDefinitionPlatformconfigsDeployPlatformTbdIo = &unstructured.Unstructured{
 	Object: map[string]interface{}{
 		"apiVersion": "apiextensions.k8s.io/v1",

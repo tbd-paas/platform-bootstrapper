@@ -41,16 +41,16 @@ commonOverlays:
 yamlFiles:
   - name: "namespace manifest"
     path: "../static/namespace.yaml"
-    outputPath: "../../dist/namespace.yaml"
+    outputPath: "manifests/namespace.yaml"
 
   - name: "rbac manifests"
     path: "../static/rbac.yaml"
-    outputPath: "../../dist/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
 
   - name: "rbac binding manifests"
     path: "../static/rbac-bindings.yaml"
-    outputPath: "../../dist/rbac-bindings.yaml"
+    outputPath: "manifests/rbac-bindings.yaml"
 
   - name: "job manifest"
     path: "../static/job.yaml"
-    outputPath: "../../dist/job.yaml"
+    outputPath: "manifests/job.yaml"

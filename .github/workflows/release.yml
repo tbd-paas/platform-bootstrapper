@@ -56,11 +56,12 @@ jobs:
           # TODO: add homebrew tap
           # HOMEBREW_TAP_GITHUB_TOKEN: "${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}"
 
+      # TODO: this currently expects the current manifests to be stored in the dist/ directory.  This
+      #       needs to be a part of the pipeline.
       - name: "Generate Bootstrapper Manifests"
         run: |
-          make kustomize
-          cd config/manager && ../../bin/kustomize edit set image controller=${{ env.IMAGE }}:${{ github.ref_name }}
-          cd ../../ && bin/kustomize build config/default > /tmp/manifests.yaml
+          for MANIFEST in $(find dist/); do
+            echo "---" >> /tmp/manifests
 
       - name: "Upload Bootstrapper Manifests to Release"
         uses: "xresloader/upload-to-github-release@v1"
