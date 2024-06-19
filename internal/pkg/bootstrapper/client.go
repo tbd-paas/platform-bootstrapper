@@ -114,7 +114,20 @@ func (client *Client) Destroy(resource *unstructured.Unstructured, gvr *schema.G
 		return ErrMissingGroupVersionResource
 	}
 
-	err := client.Client.Resource(*gvr).Namespace(resource.GetNamespace()).Delete(
+	_, err := client.Client.Resource(*gvr).Namespace(resource.GetNamespace()).Get(
+		client.Context,
+		resource.GetName(),
+		metav1.GetOptions{},
+	)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			return nil
+		}
+
+		return fmt.Errorf("unable to get resource from cluster - %w", err)
+	}
+
+	err = client.Client.Resource(*gvr).Namespace(resource.GetNamespace()).Delete(
 		client.Context,
 		resource.GetName(),
 		metav1.DeleteOptions{},
