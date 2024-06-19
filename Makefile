@@ -34,8 +34,8 @@ overlay-bootstrapper:
 		--values-file=$(PLATFORM_BOOTSTRAPPER_DIR)/config/values.yaml
 
 bootstrapper-manifests:
-	rm -rf dist
 	mkdir -p dist
+	if [[ -f dist/manifests.yaml ]]; then rm -rf dist/manifests.yaml; fi
 	for manifest in $$(find $(PLATFORM_BOOTSTRAPPER_DIR)/manifests -type f); do \
 		cat $$manifest >> dist/manifests.yaml; \
 	done
