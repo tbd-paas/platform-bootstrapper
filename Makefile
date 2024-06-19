@@ -36,8 +36,8 @@ overlay-bootstrapper:
 bootstrapper-manifests:
 	mkdir -p dist
 	if [[ -f dist/manifests.yaml ]]; then rm -rf dist/manifests.yaml; fi
-	for manifest in $$(find $(PLATFORM_BOOTSTRAPPER_DIR)/manifests -type f); do \
-		cat $$manifest >> dist/manifests.yaml; \
+	for manifest in $$(ls $(PLATFORM_BOOTSTRAPPER_DIR)/manifests); do \
+		cat $(PLATFORM_BOOTSTRAPPER_DIR)/manifests/$$manifest >> dist/manifests.yaml; \
 	done
 
 MANIFESTS_DIR ?= $(PLATFORM_CONFIG_OPERATOR_DIR)/manifests
@@ -53,13 +53,12 @@ RBAC_FILE ?= $(PLATFORM_BOOTSTRAPPER_DIR)/static/rbac.yaml
 rbac:
 	gener8s rbac yaml \
 		--manifest-files=$(MANIFESTS_DIR)/*.yaml \
-		--role-name=platform-bootstrapper \
-		--verbs=create --verbs=update --verbs=get > $(RBAC_FILE)
+		--role-name=platform-bootstrapper > $(RBAC_FILE)
 
-generate: download overlay-operator resources fmt vet rbac overlay-bootstrapper
+generate: download overlay-operator resources fmt vet rbac overlay-bootstrapper bootstrapper-manifests
 
 #
-# platform-bootstrapper utility
+# platform-bootstrapper build
 #
 .PHONY: fmt
 fmt:
@@ -92,3 +91,15 @@ docker-build:
 .PHONY: docker-push
 docker-push:
 	docker push $(IMG)
+
+#
+# platform-bootstrapper actions
+#
+install:
+	export KUBECONFIG="$${HOME}/.kube/config" && go run main.go
+
+uninstall:
+	export BOOTSTRAP_ACTION=destroy && export KUBECONFIG="$${HOME}/.kube/config" && go run main.go
+
+install-job:
+	kubectl apply -f dist/manifests.yaml

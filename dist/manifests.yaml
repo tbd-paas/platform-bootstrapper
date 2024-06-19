@@ -1,5 +1,714 @@
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: tbd-operators-system
+  labels:
+    app: platform-bootstrapper
+    app.kubernetes.io/name: platform-bootstrapper
+    app.kubernetes.io/instance: platform-bootstrapper
+    app.kubernetes.io/component: platform-bootstrapper
+    capabilities.tbd.io/capability: platform-bootstrapper
+    capabilities.tbd.io/version: unstable
+    capabilities.tbd.io/platform-version: unstable
+    app.kubernetes.io/version: unstable
+    app.kubernetes.io/part-of: platform
+    app.kubernetes.io/managed-by: tbd
+    app.kubernetes.io/created-by: tbd
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: platform-bootstrapper
+  labels:
+    app: platform-bootstrapper
+    app.kubernetes.io/name: platform-bootstrapper
+    app.kubernetes.io/instance: platform-bootstrapper
+    app.kubernetes.io/component: platform-bootstrapper
+    app.kubernetes.io/version: unstable
+    app.kubernetes.io/part-of: platform
+    capabilities.tbd.io/capability: platform-bootstrapper
+    capabilities.tbd.io/version: unstable
+    capabilities.tbd.io/platform-version: unstable
+rules:
+  - nonResourceURLs:
+      - /metrics
+    verbs:
+      - get
+  - apiGroups:
+      - acme.cert-manager.io
+    resources:
+      - challenges
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - acme.cert-manager.io
+    resources:
+      - challenges/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - acme.cert-manager.io
+    resources:
+      - challenges/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - acme.cert-manager.io
+    resources:
+      - orders
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - acme.cert-manager.io
+    resources:
+      - orders/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - acme.cert-manager.io
+    resources:
+      - orders/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - validatingwebhookconfigurations
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - apiregistration.k8s.io
+    resources:
+      - apiservices
+    verbs:
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificaterequests
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificaterequests/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificaterequests/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - clusterissuers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - clusterissuers/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - issuers
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - issuers/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - signers
+    verbs:
+      - approve
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests
+    verbs:
+      - create
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests/status
+    verbs:
+      - patch
+      - update
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - signers
+    verbs:
+      - sign
+  - apiGroups:
+      - certificates.platform.tbd.io
+    resources:
+      - certmanagers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - certificates.platform.tbd.io
+    resources:
+      - certmanagers/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - certificates.platform.tbd.io
+    resources:
+      - trustmanagers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - certificates.platform.tbd.io
+    resources:
+      - trustmanagers/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - endpoints
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - deploy.platform.tbd.io
+    resources:
+      - platformconfigs
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - deploy.platform.tbd.io
+    resources:
+      - platformconfigs/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - deploy.platform.tbd.io
+    resources:
+      - platformoperators
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - deploy.platform.tbd.io
+    resources:
+      - platformoperators/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gateways
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gateways/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - httproutes
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - httproutes/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - identity.platform.tbd.io
+    resources:
+      - awspodidentitywebhooks
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - identity.platform.tbd.io
+    resources:
+      - awspodidentitywebhooks/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterrolebindings
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterroles
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - rolebindings
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes/custom-host
+    verbs:
+      - create
+  - apiGroups:
+      - trust.cert-manager.io
+    resources:
+      - bundles
+    verbs:
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - trust.cert-manager.io
+    resources:
+      - bundles/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - trust.cert-manager.io
+    resources:
+      - bundles/status
+    verbs:
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: platform-bootstrapper
+  namespace: tbd-operators-system
+  labels:
+    app: platform-bootstrapper
+    app.kubernetes.io/name: platform-bootstrapper
+    app.kubernetes.io/instance: platform-bootstrapper
+    app.kubernetes.io/component: platform-bootstrapper
+    app.kubernetes.io/version: unstable
+    app.kubernetes.io/part-of: platform
+    capabilities.tbd.io/capability: platform-bootstrapper
+    capabilities.tbd.io/version: unstable
+    capabilities.tbd.io/platform-version: unstable
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - rolebindings
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: platform-bootstrapper
@@ -68,591 +777,6 @@ roleRef:
   name: platform-bootstrapper
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: platform-bootstrapper
-  labels:
-    app: platform-bootstrapper
-    app.kubernetes.io/name: platform-bootstrapper
-    app.kubernetes.io/instance: platform-bootstrapper
-    app.kubernetes.io/component: platform-bootstrapper
-    app.kubernetes.io/version: unstable
-    app.kubernetes.io/part-of: platform
-    capabilities.tbd.io/capability: platform-bootstrapper
-    capabilities.tbd.io/version: unstable
-    capabilities.tbd.io/platform-version: unstable
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - ""
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - acme.cert-manager.io
-    resources:
-      - challenges
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - acme.cert-manager.io
-    resources:
-      - challenges/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - acme.cert-manager.io
-    resources:
-      - challenges/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - acme.cert-manager.io
-    resources:
-      - orders
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - acme.cert-manager.io
-    resources:
-      - orders/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - acme.cert-manager.io
-    resources:
-      - orders/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - admissionregistration.k8s.io
-    resources:
-      - mutatingwebhookconfigurations
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - admissionregistration.k8s.io
-    resources:
-      - validatingwebhookconfigurations
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources:
-      - customresourcedefinitions
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - apiregistration.k8s.io
-    resources:
-      - apiservices
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - apps
-    resources:
-      - deployments
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - authentication.k8s.io
-    resources:
-      - tokenreviews
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - authorization.k8s.io
-    resources:
-      - subjectaccessreviews
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificaterequests
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificaterequests/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificaterequests/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificates
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificates/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificates/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - clusterissuers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - clusterissuers/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - issuers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - issuers/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - signers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.k8s.io
-    resources:
-      - certificatesigningrequests
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.k8s.io
-    resources:
-      - certificatesigningrequests/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.k8s.io
-    resources:
-      - signers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.platform.tbd.io
-    resources:
-      - certmanagers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.platform.tbd.io
-    resources:
-      - certmanagers/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.platform.tbd.io
-    resources:
-      - trustmanagers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - certificates.platform.tbd.io
-    resources:
-      - trustmanagers/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - coordination.k8s.io
-    resources:
-      - leases
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - endpoints
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - events
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - namespaces
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - secrets
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - serviceaccounts
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - services
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - deploy.platform.tbd.io
-    resources:
-      - platformconfigs
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - deploy.platform.tbd.io
-    resources:
-      - platformconfigs/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - deploy.platform.tbd.io
-    resources:
-      - platformoperators
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - deploy.platform.tbd.io
-    resources:
-      - platformoperators/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - gateway.networking.k8s.io
-    resources:
-      - gateways
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - gateway.networking.k8s.io
-    resources:
-      - gateways/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - gateway.networking.k8s.io
-    resources:
-      - httproutes
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - gateway.networking.k8s.io
-    resources:
-      - httproutes/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - identity.platform.tbd.io
-    resources:
-      - awspodidentitywebhooks
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - identity.platform.tbd.io
-    resources:
-      - awspodidentitywebhooks/status
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - networking.k8s.io
-    resources:
-      - ingresses
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - networking.k8s.io
-    resources:
-      - ingresses/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - clusterrolebindings
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - clusterroles
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - rolebindings
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - roles
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - route.openshift.io
-    resources:
-      - routes/custom-host
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - trust.cert-manager.io
-    resources:
-      - bundles
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - trust.cert-manager.io
-    resources:
-      - bundles/finalizers
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - trust.cert-manager.io
-    resources:
-      - bundles/status
-    verbs:
-      - create
-      - get
-      - update
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: platform-bootstrapper
-  namespace: tbd-operators-system
-  labels:
-    app: platform-bootstrapper
-    app.kubernetes.io/name: platform-bootstrapper
-    app.kubernetes.io/instance: platform-bootstrapper
-    app.kubernetes.io/component: platform-bootstrapper
-    app.kubernetes.io/version: unstable
-    app.kubernetes.io/part-of: platform
-    capabilities.tbd.io/capability: platform-bootstrapper
-    capabilities.tbd.io/version: unstable
-    capabilities.tbd.io/platform-version: unstable
-rules:
-  - apiGroups:
-      - apps
-    resources:
-      - deployments
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - coordination.k8s.io
-    resources:
-      - leases
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - events
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - serviceaccounts
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - services
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - rolebindings
-    verbs:
-      - create
-      - get
-      - update
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - roles
-    verbs:
-      - create
-      - get
-      - update
----
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -689,6 +813,7 @@ spec:
         app.kubernetes.io/managed-by: tbd
         app.kubernetes.io/created-by: tbd
     spec:
+      restartPolicy: Never
       containers:
         - command:
             - /platform-bootstrapper
@@ -718,20 +843,3 @@ spec:
         runAsUser: 1001
       serviceAccountName: platform-bootstrapper
       terminationGracePeriodSeconds: 10
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: platform-bootstrapper
-  labels:
-    app: platform-bootstrapper
-    app.kubernetes.io/name: platform-bootstrapper
-    app.kubernetes.io/instance: platform-bootstrapper
-    app.kubernetes.io/component: platform-bootstrapper
-    capabilities.tbd.io/capability: platform-bootstrapper
-    capabilities.tbd.io/version: unstable
-    capabilities.tbd.io/platform-version: unstable
-    app.kubernetes.io/version: unstable
-    app.kubernetes.io/part-of: platform
-    app.kubernetes.io/managed-by: tbd
-    app.kubernetes.io/created-by: tbd

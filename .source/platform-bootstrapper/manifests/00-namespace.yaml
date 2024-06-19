@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: platform-bootstrapper
+  name: tbd-operators-system
   labels:
     app: platform-bootstrapper
     app.kubernetes.io/name: platform-bootstrapper

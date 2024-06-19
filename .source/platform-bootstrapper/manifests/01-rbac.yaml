@@ -14,37 +14,35 @@ metadata:
     capabilities.tbd.io/version: unstable
     capabilities.tbd.io/platform-version: unstable
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - ""
+  - nonResourceURLs:
+      - /metrics
     verbs:
-      - create
       - get
-      - update
   - apiGroups:
       - acme.cert-manager.io
     resources:
       - challenges
     verbs:
       - create
+      - delete
+      - deletecollection
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - acme.cert-manager.io
     resources:
       - challenges/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - acme.cert-manager.io
     resources:
       - challenges/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - acme.cert-manager.io
@@ -52,23 +50,25 @@ rules:
       - orders
     verbs:
       - create
+      - delete
+      - deletecollection
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - acme.cert-manager.io
     resources:
       - orders/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - acme.cert-manager.io
     resources:
       - orders/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - admissionregistration.k8s.io
@@ -76,79 +76,95 @@ rules:
       - mutatingwebhookconfigurations
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - admissionregistration.k8s.io
     resources:
       - validatingwebhookconfigurations
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - apiextensions.k8s.io
     resources:
       - customresourcedefinitions
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - apiregistration.k8s.io
     resources:
       - apiservices
     verbs:
-      - create
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - apps
     resources:
       - deployments
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - authentication.k8s.io
     resources:
       - tokenreviews
     verbs:
       - create
-      - get
-      - update
   - apiGroups:
       - authorization.k8s.io
     resources:
       - subjectaccessreviews
     verbs:
       - create
-      - get
-      - update
   - apiGroups:
       - cert-manager.io
     resources:
       - certificaterequests
     verbs:
       - create
+      - delete
+      - deletecollection
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - cert-manager.io
     resources:
       - certificaterequests/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - cert-manager.io
     resources:
       - certificaterequests/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - cert-manager.io
@@ -156,23 +172,25 @@ rules:
       - certificates
     verbs:
       - create
+      - delete
+      - deletecollection
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - cert-manager.io
     resources:
       - certificates/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - cert-manager.io
     resources:
       - certificates/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - cert-manager.io
@@ -180,15 +198,18 @@ rules:
       - clusterissuers
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - cert-manager.io
     resources:
       - clusterissuers/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - cert-manager.io
@@ -196,24 +217,26 @@ rules:
       - issuers
     verbs:
       - create
+      - delete
+      - deletecollection
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - cert-manager.io
     resources:
       - issuers/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - cert-manager.io
     resources:
       - signers
     verbs:
-      - create
-      - get
-      - update
+      - approve
   - apiGroups:
       - certificates.k8s.io
     resources:
@@ -221,38 +244,41 @@ rules:
     verbs:
       - create
       - get
+      - list
       - update
+      - watch
   - apiGroups:
       - certificates.k8s.io
     resources:
       - certificatesigningrequests/status
     verbs:
-      - create
-      - get
+      - patch
       - update
   - apiGroups:
       - certificates.k8s.io
     resources:
       - signers
     verbs:
-      - create
-      - get
-      - update
+      - sign
   - apiGroups:
       - certificates.platform.tbd.io
     resources:
       - certmanagers
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - certificates.platform.tbd.io
     resources:
       - certmanagers/status
     verbs:
-      - create
       - get
+      - patch
       - update
   - apiGroups:
       - certificates.platform.tbd.io
@@ -260,15 +286,19 @@ rules:
       - trustmanagers
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - certificates.platform.tbd.io
     resources:
       - trustmanagers/status
     verbs:
-      - create
       - get
+      - patch
       - update
   - apiGroups:
       - coordination.k8s.io
@@ -276,24 +306,32 @@ rules:
       - leases
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - configmaps
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - endpoints
     verbs:
-      - create
       - get
-      - update
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -301,6 +339,7 @@ rules:
     verbs:
       - create
       - get
+      - patch
       - update
   - apiGroups:
       - ""
@@ -308,55 +347,77 @@ rules:
       - namespaces
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - pods
     verbs:
       - create
+      - delete
       - get
-      - update
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
       - secrets
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - serviceaccounts
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - services
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - deploy.platform.tbd.io
     resources:
       - platformconfigs
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - deploy.platform.tbd.io
     resources:
       - platformconfigs/status
     verbs:
-      - create
       - get
+      - patch
       - update
   - apiGroups:
       - deploy.platform.tbd.io
@@ -364,31 +425,33 @@ rules:
       - platformoperators
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - deploy.platform.tbd.io
     resources:
       - platformoperators/status
     verbs:
-      - create
       - get
+      - patch
       - update
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
       - gateways
     verbs:
-      - create
       - get
-      - update
+      - list
+      - watch
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
       - gateways/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - gateway.networking.k8s.io
@@ -396,15 +459,16 @@ rules:
       - httproutes
     verbs:
       - create
+      - delete
       - get
+      - list
       - update
+      - watch
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
       - httproutes/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - identity.platform.tbd.io
@@ -412,15 +476,19 @@ rules:
       - awspodidentitywebhooks
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - identity.platform.tbd.io
     resources:
       - awspodidentitywebhooks/status
     verbs:
-      - create
       - get
+      - patch
       - update
   - apiGroups:
       - networking.k8s.io
@@ -428,15 +496,16 @@ rules:
       - ingresses
     verbs:
       - create
+      - delete
       - get
+      - list
       - update
+      - watch
   - apiGroups:
       - networking.k8s.io
     resources:
       - ingresses/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - rbac.authorization.k8s.io
@@ -444,64 +513,75 @@ rules:
       - clusterrolebindings
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - clusterroles
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - rolebindings
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - roles
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - route.openshift.io
     resources:
       - routes/custom-host
     verbs:
       - create
-      - get
-      - update
   - apiGroups:
       - trust.cert-manager.io
     resources:
       - bundles
     verbs:
-      - create
       - get
+      - list
       - update
+      - watch
   - apiGroups:
       - trust.cert-manager.io
     resources:
       - bundles/finalizers
     verbs:
-      - create
-      - get
       - update
   - apiGroups:
       - trust.cert-manager.io
     resources:
       - bundles/status
     verbs:
-      - create
-      - get
-      - update
+      - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -525,61 +605,88 @@ rules:
       - deployments
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - coordination.k8s.io
     resources:
       - leases
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - configmaps
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - events
     verbs:
       - create
-      - get
-      - update
+      - patch
   - apiGroups:
       - ""
     resources:
       - serviceaccounts
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - ""
     resources:
       - services
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - rolebindings
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - roles
     verbs:
       - create
+      - delete
       - get
+      - list
+      - patch
       - update
+      - watch
