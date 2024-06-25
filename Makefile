@@ -96,7 +96,7 @@ docker-push:
 # platform-bootstrapper actions
 #
 install:
-	export KUBECONFIG="$${HOME}/.kube/config" && go run main.go
+	export BOOTSTRAP_ACTION=apply && export KUBECONFIG="$${HOME}/.kube/config" && go run main.go
 
 uninstall:
 	export BOOTSTRAP_ACTION=destroy && export KUBECONFIG="$${HOME}/.kube/config" && go run main.go

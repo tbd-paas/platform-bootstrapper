@@ -24,16 +24,19 @@ func main() {
 
 	b := bootstrapper.NewBootstrapper(client, options...)
 
-	// apply or destroy the objects based on the action
-	if os.Getenv("BOOTSTRAP_ACTION") == "destroy" {
+	action := os.Getenv("BOOTSTRAP_ACTION")
+	switch action {
+	case "destroy":
 		if err := b.RunAction(b.Destroy, resources.DestroyOrder()...); err != nil {
 			panic(fmt.Errorf("error destroying bootstrapped resources - %w", err))
 		}
-	} else {
+	case "apply":
 		if err := b.RunAction(b.Apply, resources.ApplyOrder()...); err != nil {
 			panic(fmt.Errorf("error applying bootstrapped resources - %w", err))
 		}
+	default:
+		panic(fmt.Errorf("unknown action [%s], only 'apply' and 'destroy' are supported", action))
 	}
 
-	b.Log.Info().Msg("successfully completed bootstrapping")
+	b.Log.Info().Msgf("successfully completed bootstrapping for action: [%s]", action)
 }
