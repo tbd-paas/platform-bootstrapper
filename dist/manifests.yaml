@@ -818,7 +818,11 @@ spec:
         - command:
             - /platform-bootstrapper
           image: quay.io/tbd-paas/platform-bootstrapper:latest
+          imagePullPolicy: Always
           name: platform-bootstrapper
+          env:
+            - name: BOOTSTRAP_ACTION
+              value: apply
           resources:
             limits:
               cpu: 125m
@@ -832,6 +836,10 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: platform-bootstrapper-config
+              readOnly: true
+              mountPath: /opt/platform-bootstrapper-config
       nodeSelector:
         kubernetes.io/arch: arm64
         kubernetes.io/os: linux
@@ -843,3 +851,9 @@ spec:
         runAsUser: 1001
       serviceAccountName: platform-bootstrapper
       terminationGracePeriodSeconds: 10
+      volumes:
+        - name: platform-bootstrapper-config
+          configMap:
+            name: platform-bootstrapper-config
+            defaultMode: 644
+            optional: true
