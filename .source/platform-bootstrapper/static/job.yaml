@@ -75,5 +75,5 @@ spec:
         - name: platform-bootstrapper-config
           configMap:
             name: platform-bootstrapper-config
-            defaultMode: 644
+            defaultMode: 0644
             optional: true
