@@ -9,8 +9,7 @@ on:
 env:
   # NOTE: the IMAGE_PATH variable needs to be set as an environment variable on each
   #       repository for this variable to be properly set, otherwise it will be blank.
-  IMAGE:     "${{ vars.ORG_IMAGE_REGISTRY_HOSTNAME }}/${{ vars.IMAGE_PATH }}"
-  GOPRIVATE: "${{ vars.ORG_GOPRIVATE }}"
+  IMAGE: "${{ vars.ORG_IMAGE_REGISTRY_HOSTNAME }}/${{ vars.IMAGE_PATH }}"
 
 jobs:
   Release:
@@ -45,7 +44,7 @@ jobs:
           platforms: "linux/amd64,linux/arm64"
           push: true
           tags: "${{ env.IMAGE }}:${{ github.ref_name }},${{ env.IMAGE }}:latest"
-          build_args: "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+          build_args: "GITHUB_TOKEN=${{ secrets.ORG_GITHUB_ACCESS_TOKEN }}"
 
       - name: "Run Go Releaser"
         uses: "goreleaser/goreleaser-action@v3"
