@@ -70,7 +70,8 @@ vet:
 
 .PHONY: build
 build: generate fmt vet
-	go build -o bin/platform-bootstrapper main.go
+	export GOPRIVATE=github.com/tbd-paas/tbd-cli,github.com/tbd-paas/platform-config-operator && \
+		go build -o bin/platform-bootstrapper main.go
 
 .PHONY: run
 run: generate fmt vet

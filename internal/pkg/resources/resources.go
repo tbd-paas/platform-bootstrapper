@@ -60,8 +60,8 @@ func Configs() []*unstructured.Unstructured {
 	return []*unstructured.Unstructured{config}
 }
 
-// ApplyOrder returns the order in which resources need to be applied.
-func ApplyOrder() []*unstructured.Unstructured {
+// ApplyOrder returns the order in which operator resources need to be applied.
+func ApplyOrder(additional ...*unstructured.Unstructured) []*unstructured.Unstructured {
 	objects := []*unstructured.Unstructured{}
 
 	for _, group := range [][]*unstructured.Unstructured{
@@ -71,8 +71,12 @@ func ApplyOrder() []*unstructured.Unstructured {
 		Deployments(),
 		Services(),
 		OperatorDeploymentConfigs(),
-		Configs(),
+		additional,
 	} {
+		if len(group) < 1 {
+			continue
+		}
+
 		objects = append(objects, group...)
 	}
 
@@ -80,8 +84,8 @@ func ApplyOrder() []*unstructured.Unstructured {
 }
 
 // DestroyOrder returns the order in which resources need to be destroyed.
-func DestroyOrder() []*unstructured.Unstructured {
-	forward := ApplyOrder()
+func DestroyOrder(additional ...*unstructured.Unstructured) []*unstructured.Unstructured {
+	forward := ApplyOrder(additional...)
 
 	reverse := make([]*unstructured.Unstructured, len(forward))
 
