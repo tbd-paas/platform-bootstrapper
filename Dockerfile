@@ -1,6 +1,16 @@
 # Build the manager binary
 FROM golang:1.22 as builder
 
+ARG GITHUB_TOKEN
+
+# TODO: this is temporary to allow access to private repositories.  once this is all public, we
+#       no longer need this.
+ENV GOPRIVATE=github.com/tbd-paas/*
+RUN echo "machine github.com" >> /root/.netrc && \
+        echo "login ${GITHUB_TOKEN}" >> /root/.netrc && \
+        echo "password x-oauth-basic" >> /root/.netrc && \
+        chmod 0600 /root/.netrc
+
 WORKDIR /workspace
 # Copy the Go Modules manifests
 COPY go.mod go.mod

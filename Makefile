@@ -84,10 +84,11 @@ install-linter:
 lint:
 	golangci-lint run
 
+# NOTE: use of the tbd-access-token is temporary and will go away when we have all public repositories
 IMG ?= quay.io/tbd-paas/platform-bootstrapper:latest
 .PHONY: docker-build
 docker-build:
-	docker build -t $(IMG) .
+	docker build --build-arg=GITHUB_TOKEN=$$(bw get password tbd-access-token) -t $(IMG) .
 
 .PHONY: docker-push
 docker-push:
