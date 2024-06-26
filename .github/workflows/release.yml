@@ -9,7 +9,8 @@ on:
 env:
   # NOTE: the IMAGE_PATH variable needs to be set as an environment variable on each
   #       repository for this variable to be properly set, otherwise it will be blank.
-  IMAGE: "${{ vars.ORG_IMAGE_REGISTRY_HOSTNAME }}/${{ vars.IMAGE_PATH }}"
+  IMAGE:     "${{ vars.ORG_IMAGE_REGISTRY_HOSTNAME }}/${{ vars.IMAGE_PATH }}"
+  GOPRIVATE: "${{ vars.ORG_GOPRIVATE }}"
 
 jobs:
   Release:
