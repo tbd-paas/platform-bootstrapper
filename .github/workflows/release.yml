@@ -46,6 +46,14 @@ jobs:
           tags: "${{ env.IMAGE }}:${{ github.ref_name }},${{ env.IMAGE }}:latest"
           build-args: "GITHUB_TOKEN=${{ secrets.ORG_GITHUB_ACCESS_TOKEN }}"
 
+      # NOTE: this is only temporary while our repositories are private.
+      - name: "Inject GitHub Token"
+        run: |
+          echo "machine github.com" >> ~/.netrc
+          echo "login ${{ secrets.ORG_GITHUB_ACCESS_TOKEN }}" >> ~/.netrc
+          echo "password x-oauth-basic" >> ~/.netrc
+          chmod 0600 ~/.netrc
+
       - name: "Run Go Releaser"
         uses: "goreleaser/goreleaser-action@v3"
         with:
@@ -71,3 +79,12 @@ jobs:
           tags: true
           verbose: true
           update_latest_release: true
+
+      # NOTE: this is only temporary while our repositories are private.
+      - name: "Cleanup GitHub Token"
+        if: always()
+        run: |
+          if [[ -f ~/.netrc ]]; then
+            echo "cleaning up .netrc file"
+            rm -rf ~/.netrc
+          fi

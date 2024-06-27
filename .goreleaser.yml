@@ -10,6 +10,7 @@ builds:
   - id: "cli"
     env:
       - "CGO_ENABLED=0"
+      - "GOPRIVATE=github.com/tbd-paas/*"
     goos:
       - "linux"
       - "windows"
